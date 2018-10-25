@@ -28,23 +28,21 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
+                    <a class="navbar-brand" href="{{ route('home') }}">Basic Site</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li><a href="{{ route('about') }}">About Us</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login.create') }}">Login</a></li>
+                            <li><a href="{{ route('register.create') }}">Register</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
@@ -52,14 +50,17 @@
                                 </a>
 
                                 <ul class="dropdown-menu">
+                                    @if ( auth()->user()->hasPerm('access-dash') )
+                                        <li><a href="{{ route('dash.home') }}">Dashboard</a></li>
+                                    @endif
                                     <li>
-                                        <a href="{{ route('logout') }}"
+                                        <a href="{{ route('login.destroy') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" action="{{ route('login.destroy') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
@@ -70,7 +71,7 @@
                 </div>
             </div>
         </nav>
-
+        @include('layouts.flash')
         @yield('content')
     </div>
 
