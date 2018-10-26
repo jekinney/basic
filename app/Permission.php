@@ -2,9 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Base;
+use Illuminate\Http\Request;
 
-class Permission extends Model
+class Permission extends Base
 {
     ///// Setup and overides
 
@@ -28,6 +29,16 @@ class Permission extends Model
     ///// Helpers
 
     /**
+    * Get a full permissions list for admins
+    *
+    * @return Collection
+    */
+    public function fullList()
+    {
+        return $this->get();
+    }
+
+    /**
     * set up request data to insert into database.
     *
     * @param \Illuminate\Http\Request $request
@@ -35,11 +46,7 @@ class Permission extends Model
     */
     protected function setData(Request $request)
     {
-        return [
-            'name' => $request->name,
-            'slug' => str_slug( $request->name ),
-            'description' => $request->description,
-        ];
+        
     }
 
     /**
@@ -50,18 +57,6 @@ class Permission extends Model
     */
     protected function validateInput(Request $request)
     {
-        $rules = [
-            'id' => 'numeric|exists:roles,id',
-            'name' => 'required|max:30|string|unique:roles,name',
-            'description' => 'required|max:255|string',
-        ];
-
-        if ( !$request->isMethod('post') ) {
-
-            $rules['name'] .= ','. $request->id;
-
-        }
-
-        return $request->validate( $rules );
+        
     }
 }

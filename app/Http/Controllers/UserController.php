@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Role;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -20,25 +21,16 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        return view( 'dash.user.show', compact('user') );
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(User $user, Role $role)
     {
-        return view( 'dash.user.edit', compact('user') );
+        $roles = $role->selectList( 'name', ['name'] );
+
+        return view( 'dash.user.edit', compact('user', 'roles') );
     }
 
     /**
@@ -53,6 +45,36 @@ class UserController extends Controller
         $user = $user->renew( $request );
 
         session()->flash( 'success', 'User has been updated.' );
+
+        return back();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function ban(User $user)
+    {
+        if ( $user->toggleBan() ) {
+
+            if ( is_null($user->banned_at) ) {
+
+                session()->flash( 'success', 'User ban has been lifted.' );
+
+            } else {
+
+                session()->flash( 'warning', 'User has been banned.' );
+
+            }
+
+        } else {
+
+            session()->flash( 'info', 'You can not ban yourself.' );
+
+        }
 
         return back();
     }

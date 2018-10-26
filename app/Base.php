@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class Base extends Model
 {
-	///// Setup and overides
+	  ///// Setup and overides
 
     /**
      * Guarded columns that are not mass assignable.
@@ -35,10 +35,10 @@ abstract class Base extends Model
     */
     public function selectList($order, array $columns)
     {
-    	// Awlays add id for select
-    	$columns[] = 'id';
+    	   // Awlays add id for select
+    	   $columns[] = 'id';
 
-    	return $this->orderBy( $order, 'desc' )->get( $columns );
+    	   return $this->orderBy( $order, 'asc' )->get( $columns );
     }
 
     /**

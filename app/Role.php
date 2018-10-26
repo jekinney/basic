@@ -38,9 +38,62 @@ class Role extends Base
 
     public function fullList()
     {
-        return $this->with( 'permissions' )
-            ->orderBy( 'name', 'desc' )
-            ->get();
+          return $this->withCount('users')
+              ->with( 'users', 'permissions' )
+              ->orderBy( 'name', 'desc' )
+              ->get();
+    }
+
+    /**
+    * Create and insert data a new model, 
+    *
+    * @param \Illuminate\Http\Request $request
+    * @return Model
+    */
+    public function store(Request $request)
+    {
+        $this->validateInput( $request );
+
+        $role = $this->create( $this->setData($request) );
+
+        $role->permissions()->attach( $request->permissions );
+
+        return $role;
+    }
+
+    /**
+    * Update and insert data on a existing model, 
+    *
+    * @param \Illuminate\Http\Request $request
+    * @return Model
+    */
+    public function renew(Request $request)
+    {
+        $this->validateInput( $request );
+
+        $this->update( $this->setData($request) );
+
+        $this->permissions()->sync( $request->permissions );
+
+        return $this;
+    }
+
+    /**
+    * Attempt to remove a role
+    *
+    * @return boolean
+    */
+    public function remove()
+    {
+        if ( $this->users->count() > 0 ) {
+
+            return false;
+
+        }
+
+        $this->permissions()->detach();
+
+        return $this->delete();
     }
 
     /**
@@ -72,12 +125,12 @@ class Role extends Base
       			'description' => 'required|max:255|string',
     		];
 
-  		if ( !$request->isMethod('post') ) {
+  		  if ( !$request->isMethod('post') ) {
 
-  			   $rules['name'] .= ','. $request->id;
+  			    $rules['name'] .= ','. $this->id;
 
-  		}
+  		  }
 
-  		   return $request->validate( $rules );
+  		  return $request->validate( $rules );
   	}
 }

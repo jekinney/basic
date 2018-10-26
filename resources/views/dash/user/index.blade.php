@@ -1,25 +1,23 @@
 @extends('layouts.dash')
 
 @section('content')
-    <main class="container">
-        <div class="row">
+    <div class="row">
 
-            <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
 
-                <div class="panel panel-default">
+            <div class="panel panel-default">
 
-                    <header class="panel-heading">
-                        <h1 class="panel-title">Dashboard</h1>
-                    </header>
+                <header class="panel-heading">
+                    <h1 class="panel-title">User List</h1>
+                </header>
 
-                    <div class="panel-body">
-                        You are logged in!
-                    </div>
-
-                </div>
+                @include( 'dash.user.detail_table', ['users' => $users, 'full' => true] )
 
             </div>
 
         </div>
-    </main>
+
+    </div>
+
+    @include('dash.user.show_model', $users)
 @endsection

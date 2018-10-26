@@ -27,7 +27,7 @@ class RoleController extends Controller
      */
     public function create(Permission $permission)
     {
-        $permissions = $permission->selectList(['id', 'name']);
+        $permissions = $permission->selectList( 'name', ['name', 'description'] );
 
         return view( 'dash.role.create', compact('permissions') );
     }
@@ -38,26 +38,13 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Role $role)
     {
         $role = $role->store( $request );
 
         session()->flash( 'success', 'Role has been created.' );
 
-        return redirect()->route( 'role.index' );
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Role $role)
-    {
-        $role = $role->single( ['permissions'] );
-
-        return view( 'dash.role.show', compact('role') );
+        return redirect()->route( 'dash.role.index' );
     }
 
     /**
@@ -70,7 +57,7 @@ class RoleController extends Controller
     {
         $role = $role->single( ['permissions'] );
 
-        $permissions = $permission->selectList(['id', 'name']);
+        $permissions = $permission->selectList( 'name', ['name', 'description'] );
 
         return view( 'dash.role.edit', compact('role', 'permissions') );
     }
@@ -99,9 +86,15 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $role->remove();
+        if ( $role->remove() ) {
         
-        session()->flash( 'success', 'Role has been removed.' );
+            session()->flash( 'success', 'Role has been removed.' );
+
+            return redirect()->route( 'dash.role.index' );
+
+        }
+
+        session()->flash( 'danger', 'Role still has users attached and can not remove yet.' );
 
         return back();
     }
