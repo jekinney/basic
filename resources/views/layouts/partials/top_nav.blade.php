@@ -18,6 +18,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
                 <li><a href="{{ route('about') }}">About Us</a></li>
+                <li><a href="{{ route('support.create') }}">Contact Us</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -33,9 +34,13 @@
                         </a>
 
                         <ul class="dropdown-menu">
+                            <li><a href="">My Profile</a></li>
+                            <li><a href="{{ route('support.index') }}">My Support</a></li>
                             @if ( auth()->user()->hasPerm('access-dash') )
+                                <li class="divider"></li>
                                 <li><a href="{{ route('dash.home') }}">Dashboard</a></li>
                             @endif
+                            <li class="divider"></li>
                             <li>
                                 <a href="{{ route('login.destroy') }}"
                                     onclick="event.preventDefault();

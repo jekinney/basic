@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'About Us')
+@section('title', 'Show Support Request')
 
 @section('content')
     <main class="container">

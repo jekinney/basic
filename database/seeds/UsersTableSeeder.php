@@ -46,6 +46,12 @@ class UsersTableSeeder extends Seeder
         	['slug' => 'create-role', 'name' => 'Create Role', 'description' => 'Create a role.'],
         	['slug' => 'update-role', 'name' => 'Update Role', 'description' => 'Update a role.'],
         	['slug' => 'delete-role', 'name' => 'Delete Role', 'description' => 'Delete a role.'],
+            // Support
+            ['slug' => 'view-support', 'name' => 'View Support', 'description' => 'View Support requests.'],
+            ['slug' => 'view-assigned-support', 'name' => 'View Assigned Support', 'description' => 'View assigned Support requests only.'],
+            ['slug' => 'update-support', 'name' => 'Update Support', 'description' => 'Update and assign support requests'],
+            // Monitor
+            ['slug' => 'view-health', 'name' => 'View Health', 'description' => 'View Health Monitor'],
         ];
 
         foreach ( $permissions as $perm ) {

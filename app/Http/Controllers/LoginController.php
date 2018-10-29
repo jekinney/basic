@@ -29,7 +29,7 @@ class LoginController extends Controller
 
         	session()->flash( 'success', 'Welcome back!' );
 
-        	return redirect()->intended('/');
+        	return redirect()->intended();
 
         } 
 
