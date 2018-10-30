@@ -34,7 +34,7 @@
                         </a>
 
                         <ul class="dropdown-menu">
-                            <li><a href="">My Profile</a></li>
+                            <li><a href="{{ route('profile.edit') }}">My Profile</a></li>
                             <li><a href="{{ route('support.index') }}">My Support</a></li>
                             @if ( auth()->user()->hasPerm('access-dash') )
                                 <li class="divider"></li>

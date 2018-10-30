@@ -106,6 +106,61 @@ class User extends Authenticatable
     }
 
     /**
+    * Get all users with access to support
+    */
+    public function supportAdmins()
+    {
+        $admins = $this->has( 'role' )->get()->map( function( $user ) {
+            if ( $user->hasPerm('view-support') ) {
+                return $user;
+            }
+        });
+
+        return $admins;           
+    }
+
+    public function editProfile()
+    {
+        return (object) $this->only(['name', 'email']);
+    }
+
+    public function updateName(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:60|string',
+        ]);
+
+        return auth()->user()->update(['name' => $request->name]);
+    }
+
+    public function updateEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|unique:users,email,'. auth()->id(),
+        ]);
+
+        return auth()->user()->update(['email' => $request->email]);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $user = auth()->user();
+
+        if ( password_verify($request->current_password, $user->password) ) {
+
+            $request->validate([
+                'password' => 'required|between:6,20|string|confirmed',
+            ]);
+
+            return $user->update( ['password' => bcrypt($request->password)] );
+        }
+
+        session()->flash( 'danger', 'Current password is not correct.' );
+
+        return back();
+    }
+
+    /**
     * Attempt to ban a user
     *
     * @return boolean

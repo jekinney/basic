@@ -36,11 +36,11 @@ class ProfileController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit()
     {
-        $user = $user->editProfile();
+        $user = auth()->user()->editProfile();
 
-        return view ('profile.show', compact('user') );
+        return view ('profile.edit', compact('user') );
     }
 
     /**
@@ -54,7 +54,7 @@ class ProfileController extends Controller
     {
         $user->updateName( $request );
 
-        session()->flash( 'suceess', 'Your name has been updated.' );
+        session()->flash( 'success', 'Your name has been updated.' );
 
         return back();
     }
@@ -70,7 +70,7 @@ class ProfileController extends Controller
     {
         $user->updateEmail( $request );
 
-        session()->flash( 'suceess', 'Your email has been updated.' );
+        session()->flash( 'success', 'Your email has been updated.' );
 
         return back();
     }
@@ -86,7 +86,7 @@ class ProfileController extends Controller
     {
         $user->updatePassword( $request );
 
-        session()->flash( 'suceess', 'Your password has been updated.' );
+        session()->flash( 'success', 'Your password has been updated.' );
 
         return back();
     }

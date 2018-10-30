@@ -15,6 +15,7 @@ class CreateSupportsTable extends Migration
     {
         Schema::create('supports', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('uid')->index();
             $table->integer('user_id');
             $table->integer('assigned_id')->nullable();
             $table->string('subject', 120);
@@ -22,6 +23,8 @@ class CreateSupportsTable extends Migration
             $table->string('email');
             $table->text('message');
             $table->boolean('requires_reply')->default(false);
+            $table->boolean('send_notification')->default(false);
+            $table->boolean('notification_sent')->default(false);
             $table->timestamp('user_deleted_at')->nullable();
             $table->timestamps();
         });

@@ -1,5 +1,7 @@
 @extends('layouts.dash')
 
+@section('title', 'Role List')
+
 @section('content')
     <div class="row">
 

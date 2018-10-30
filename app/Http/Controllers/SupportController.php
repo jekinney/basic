@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Support;
 use Illuminate\Http\Request;
 
@@ -24,11 +25,12 @@ class SupportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function admin(Support $support)
+    public function admin(Support $support, User $user)
     {   
+        $admins = $user->supportAdmins();
         $support = $support->fullList();
 
-        return view( 'dash.support.index', compact('support') );
+        return view( 'dash.support.index', compact('admins', 'support') );
     }
 
     /**
@@ -64,7 +66,7 @@ class SupportController extends Controller
      */
     public function show(Support $support)
     {
-        $support = $support->show();
+        $support = $support->single( ['assigned', 'replies', 'replies.user'] );
 
         return view( 'support.show', compact('support') );
     }
@@ -75,11 +77,12 @@ class SupportController extends Controller
      * @param  \App\Support $support
      * @return \Illuminate\Http\Response
      */
-    public function edit(Support $support)
+    public function edit(Support $support, User $user)
     {
-        $support = $support->edit();
+        $admins = $user->supportAdmins();
+        $support = $support->single( ['replies', 'replies.user'] );
 
-        return view( 'dash.support.edit', compact('support') );
+        return view( 'dash.support.edit', compact('admins', 'support') );
     }
 
     /**
@@ -91,11 +94,11 @@ class SupportController extends Controller
      */
     public function update(Request $request, Support $support)
     {
-        $support = $support->renew( $request );
+        $support = $support->assign( $request );
 
-        session()->flash( 'success', 'Support Request has been updated.' );
+        session()->flash( 'success', 'Support Request has been assigned.' );
 
-        return redirect()->route( 'dash.support.edit', compact('support') );
+        return redirect()->route( 'dash.support.index' );
     }
 
     /**

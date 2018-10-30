@@ -4,8 +4,9 @@ Route::get('/', 'PageController@home')->name('home');
 Route::get('/about', 'PageController@about')->name('about');
 
 Route::get('/support/create', 'SupportController@create')->name('support.create');
-Route::get('/support/{support}', 'SupportController@show')->name('support.show');
+Route::get('/support/show/{support}', 'SupportController@show')->name('support.show');
 Route::post('/support/store', 'SupportController@store')->name('support.store');
+Route::post('/support-reply/store', 'SupportReplyController@store')->name('support-reply.store');
 
 Route::get('/login', 'LoginController@create')->middleware('guest')->name('login.create');
 Route::post('/login', 'LoginController@store')->middleware('guest')->name('login.store');
@@ -18,6 +19,15 @@ Route::prefix('register')->middleware('guest')->group( function() {
 
 Route::middleware( 'auth' )->group( function() {
 	Route::get('/support', 'SupportController@index')->name('support.index');
+
+	Route::prefix('profile')->group( function() {
+		Route::get('/', 'ProfileController@index')->name('profile.index');
+		Route::get('/profile/edit', 'ProfileController@edit')->name('profile.edit');
+		Route::get('/profile/show/{user}', 'ProfileController@show')->name('profile.show');
+		Route::post('/profile/name', 'ProfileController@updateName')->name('profile.name');
+		Route::post('/profile/email', 'ProfileController@updateEmail')->name('profile.email');
+		Route::post('/profile/password', 'ProfileController@updatePassword')->name('profile.password');
+	});
 });
 
 Route::prefix('dash')->middleware(['auth', 'perm:access-dash'])->group( function() {

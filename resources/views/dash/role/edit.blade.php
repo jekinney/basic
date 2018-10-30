@@ -1,5 +1,7 @@
 @extends('layouts.dash')
 
+@section('title', 'Role Editor')
+
 @section('content')
     <div class="col-md-4 col-md-offset-4">
 

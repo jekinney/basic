@@ -8,56 +8,18 @@ use Illuminate\Http\Request;
 class SupportReplyController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, SupportReply $reply)
     {
-        //
-    }
+        $reply->store( $request );
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\SupportReply  $supportReply
-     * @return \Illuminate\Http\Response
-     */
-    public function show(SupportReply $supportReply)
-    {
-        //
-    }
+        session()->flash( 'success' ,'Reply has been saved.' );
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\SupportReply  $supportReply
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(SupportReply $supportReply)
-    {
-        //
+        return back();
     }
 
     /**

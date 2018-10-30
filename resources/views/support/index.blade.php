@@ -32,7 +32,9 @@
                                         <th class="text-center">{{ $sup->created_at->format( 'm-d-Y H:m a') }}</th>
                                         <th class="text-center">{{ $sup->updated_at->format( 'm-d-Y H:m a') }}</th>
                                         <th class="text-center"></th>
-                                        <th class="text-center"></th>
+                                        <th class="text-center">
+                                            <a href="{{ route('support.show', $sup) }}" class="btn btn-sm btn-info">Details</a>
+                                        </th>
                                     </tr>
                                 @endforeach
                             </tbody>

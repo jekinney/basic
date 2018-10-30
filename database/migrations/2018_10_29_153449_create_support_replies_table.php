@@ -17,7 +17,6 @@ class CreateSupportRepliesTable extends Migration
             $table->increments('id');
             $table->integer('support_id');
             $table->integer('user_id')->nullable();
-            $table->string('name');
             $table->text('message');
             $table->boolean('send_notification')->default(false);
             $table->boolean('notification_sent')->default(false);

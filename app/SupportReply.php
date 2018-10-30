@@ -35,12 +35,9 @@ class SupportReply extends Base
     protected function setData(Request $request)
     {
         return [
-            'name' => $request->name,
-            'email' => $request->email,
             'user_id' => auth()->id()?? null,
-            'subject' => $request->subject,
             'message' => $request->message,
-            'requires_reply' => $request->requires_reply?? false,
+            'support_id' => $request->support_id,
         ];
     }
 
@@ -52,14 +49,9 @@ class SupportReply extends Base
     */
     protected function validateInput(Request $request)
     {
-        $rules = [
-            'name' => 'required|string|max:120',
-            'email' => 'required|email',
-            'subject' => 'required|string|max:120',
+        return $request->validate([
             'message' => 'required|string',
-            'requires_reply' => 'boolean',
-        ];
-
-        return $request->validate( $rules );
+            'support_id' => 'required|numeric|exists:supports,id',
+        ]);
     }
 }

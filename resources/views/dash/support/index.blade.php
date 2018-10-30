@@ -1,5 +1,7 @@
 @extends('layouts.dash')
 
+@section('title', 'Support Request List')
+
 @section('content')
     <div class="panel panel-default">
 
@@ -10,12 +12,12 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
+                    <th width="10%">Name</th>
+                    <th width="10%">Email</th>
                     <th>Subject</th>
-                    <th class="text-center" width="10%">Replies</th>
+                    <th class="text-center" width="5%">Replies</th>
                      @if ( auth()->user()->hasPerm('view-support') )
-                        <th class="text-center" width="10%">Assigned</th>
+                        <th class="text-center" width="5%">Assigned</th>
                     @endif
                     <th class="text-center" width="10%">Options</th>
                 </tr>
@@ -28,10 +30,10 @@
                         <td>{{ $sup->subject }}</td>
                         <td class="text-center">{{ $sup->replies_count }}</td>
                          @if ( auth()->user()->hasPerm('view-support') )
-                            <td>{{ $sup->assigned? $sup->assigned->name:'No' }}</td>
+                            <td class="text-center">{{ $sup->assigned? $sup->assigned->name:'No' }}</td>
                         @endif
                         <td class="text-center">
-                            <a href="{{ route('dash.support.edit', $sup) }}" class="btn btn-sm btn-info">Update</a>
+                            <a href="{{ route('dash.support.edit', $sup) }}" class="btn btn-sm btn-info">Details</a>
                             @if ( auth()->user()->hasPerm('view-support') )
                                 <button data-toggle="modal" data-target="#assign-{{ $sup->id }}" class="btn btn-sm btn-default">
                                     Assign
@@ -45,4 +47,9 @@
 
     </div>
 
+    @foreach ( $support as $sup )
+
+        @include( 'dash.support.assign_modal', ['support' => $sup, 'users' => $admins] )
+
+    @endforeach
 @endsection
