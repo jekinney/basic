@@ -17,6 +17,15 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                        Blog <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ route('blog.article.index') }}">Articles</a></li>
+                        <li><a href="{{ route('blog.category.index') }}">Categories</a></li>
+                    </ul>
+                </li>
                 <li><a href="{{ route('about') }}">About Us</a></li>
                 <li><a href="{{ route('support.create') }}">Contact Us</a></li>
             </ul>

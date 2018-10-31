@@ -17,6 +17,14 @@ Route::prefix('register')->middleware('guest')->group( function() {
 	Route::post('/', 'RegisterController@store')->name('register.store');
 });
 
+Route::prefix('blog')->namespace('Blog')->group( function() {
+	Route::get('/article', 'ArticleController@index')->name('blog.article.index');
+	Route::get('/article/show/{article}', 'ArticleController@show')->name('blog.article.show');
+
+	Route::get('/category', 'CategoryController@index')->name('blog.category.index');
+	Route::get('/category/show/{category}', 'CategoryController@show')->name('blog.category.show');
+});
+
 Route::middleware( 'auth' )->group( function() {
 	Route::get('/support', 'SupportController@index')->name('support.index');
 
