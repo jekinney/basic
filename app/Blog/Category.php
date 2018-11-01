@@ -71,6 +71,17 @@ class Category extends Base
         return $this;
     }
 
+    public function remove()
+    {
+        if ( $this->articles->count() > 0 ) {
+
+            return false;
+
+        }
+
+        return $this->delete();
+    }
+
     ///// Helpers
 
     /**

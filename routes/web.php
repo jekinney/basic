@@ -57,4 +57,18 @@ Route::prefix('dash')->middleware(['auth', 'perm:access-dash'])->group( function
 	Route::get('/support', 'SupportController@admin')->middleware('perm:view-assigned-support')->name('dash.support.index');
 	Route::get('/support/edit/{support}', 'SupportController@edit')->middleware('perm:update-support')->name('dash.support.edit');
 	Route::patch('/support/{support}', 'SupportController@update')->middleware('perm:update-support')->name('dash.support.update');
+
+	Route::prefix('blog')->namespace('Blog')->group( function() {
+		Route::get('/category', 'CategoryController@admin')->name('dash.blog.category.index');
+		Route::post('/category/store', 'CategoryController@store')->name('dash.blog.category.store');
+		Route::patch('/category/update/{category}', 'CategoryController@update')->name('dash.blog.category.update');
+		Route::delete('/category/destroy/{category}', 'CategoryController@destroy')->name('dash.blog.category.delete');
+
+		Route::get('/article', 'ArticleController@admin')->name('dash.blog.article.index');
+		Route::get('/article/create', 'ArticleController@create')->name('dash.blog.article.create');
+		Route::get('/article/edit/{article}', 'ArticleController@edit')->name('dash.blog.article.edit');
+		Route::post('/article/store', 'ArticleController@store')->name('dash.blog.article.store');
+		Route::patch('/article/update/{article}', 'ArticleController@update')->name('dash.blog.article.update');
+		Route::delete('/article/destroy/{article}', 'ArticleController@destroy')->name('dash.blog.article.delete');
+	});
 });

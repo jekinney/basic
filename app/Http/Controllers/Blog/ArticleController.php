@@ -57,7 +57,7 @@ class ArticleController extends Controller
 
         session()->flash( 'success', 'New Article has been saved.' );
 
-        return redirect()->route( 'dash.article.index' );
+        return redirect()->route( 'dash.blog.article.index' );
     }
 
     /**
@@ -83,7 +83,7 @@ class ArticleController extends Controller
     public function edit(Article $article, Category $category)
     {
         $article = $article->edit();
-        $categories = $category->seletcList( 'name', ['id', 'name'] );
+        $categories = $category->selectList( 'name', ['id', 'name'] );
 
         return view( 'dash.blog.article.edit', compact('article', 'categories') );
     }
@@ -101,7 +101,7 @@ class ArticleController extends Controller
 
         session()->flash( 'success', 'Article has been updated.' );
 
-        return redirect()->route( 'dash.article.index' ); 
+        return redirect()->route( 'dash.blog.article.index' ); 
     }
 
     /**

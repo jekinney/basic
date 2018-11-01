@@ -32,15 +32,6 @@ class CategoryController extends Controller
         return view( 'dash.blog.category.index', compact('categories') );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view( 'dash.blog.category.create' );
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -54,7 +45,7 @@ class CategoryController extends Controller
 
         session()->flash( 'success', 'New Category has been saved.' );
 
-        return redirect()->route( 'dash.category.index' );
+        return back();
     }
 
     /**
@@ -71,19 +62,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Blog\Category $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        $category = $category->edit();
-
-        return view( 'dash.blog.category.edit', compact('category') );
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -94,7 +72,9 @@ class CategoryController extends Controller
     {
         $category->renew( $request );
 
-        return redirect()->route( 'dash.category.index' );
+        session()->flash( 'success', 'Category update has been saved.' );
+
+        return back();
     }
 
     /**
@@ -105,9 +85,15 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->remove();
+        if ( $category->remove() ) {
 
-        session()->flash( 'success', 'Category has been removed.' );
+            session()->flash( 'success', 'Category has been removed.' );
+
+        } else {
+
+            session()->flash( 'danger', 'Category can not be removed when it has articles.' );
+            
+        }
 
         return back();
     }

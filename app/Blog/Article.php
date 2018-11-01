@@ -91,7 +91,18 @@ class Article extends Base
     }
 
 
-    ///// Helpers
+    ///// Helpers   
+
+    public function formatDate($date)
+    {
+        if ( is_null($date) ) {
+
+            return '';
+
+        }
+
+        return $date->format( 'm-d-Y h:m a' );
+    }
 
     protected function setData(Request $request)
     {
